@@ -21,7 +21,21 @@ const authController = {
         }
 
     },
-    async login() { }
+    async login(req, res, next) {
+        const userLoginSchema = {
+          
+            email: Joi.string().email().required(),
+            password: Joi.string().pattern(passwordPattern).required(),
+    
+        }
+
+        const { error } = userLoginSchema.validate(req.boday);
+
+        if (error) {
+
+        }
+
+     }
 }
 
 model.exports = authController;
