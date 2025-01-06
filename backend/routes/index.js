@@ -6,7 +6,7 @@ const router=express.Router();
 router.get("/test",(req,res)=>res.json({"msg":"Working"}));
 
 
-router.get("/register",authController.register);
+router.post("/register",authController.register);
 router.get("/login",authController.login);  
 
 

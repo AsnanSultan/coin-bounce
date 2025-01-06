@@ -1,6 +1,7 @@
 const { model } = require("mongoose");
 const Joi = require("joi");
 const User = require("../models/user");
+const bcrypt = require("bcryptjs");
 
 const passwordPattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
 const authController = {
@@ -30,10 +31,34 @@ const authController = {
                 };
                 return next(error);
             }
-            // ...existing code...
+
+            if (usernameInUse) {
+                const error = {
+                    status: 409,
+                    message: 'Username already exists'
+                };
+                return next(error);
+            }
+
         } catch (error) {
-            // ...existing code...
+
+            return next(error);
         }
+
+
+        const passwordHash = await bcrypt.hash(password, 10);
+
+        const userToStore = User({
+            username,
+            name,
+            email,
+            password: passwordHash
+        });
+
+        const user = await userToStore.save();
+
+        return res.status(201).json({ user });
+
     },
     async login(req, res, next) {
         const userLoginSchema = Joi.object({
