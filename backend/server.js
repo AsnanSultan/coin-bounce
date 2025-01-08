@@ -1,9 +1,9 @@
-const express=require(`express`);
-const dbConnect=require("./database/index.js");
-const {PORT}=require("./config/index");
-const router=require("./routes/index");
-const errorHandler=require("./middleware/errorHandler.js");
-const app=express();
+const express = require(`express`);
+const dbConnect = require("./database/index.js");
+const { PORT } = require("./config/index");
+const router = require("./routes/index");
+const errorHandler = require("./middleware/errorHandler.js");
+const app = express();
 app.use(express.json());
 
 app.use(router);
@@ -13,4 +13,4 @@ dbConnect();
 
 
 app.use(errorHandler);
-app.listen(3000,console.log(`Server is running on port ${3000}`));
+app.listen(3000, console.log(`Server is running on port ${3000}`));

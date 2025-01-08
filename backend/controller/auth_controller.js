@@ -2,6 +2,8 @@ const { model } = require("mongoose");
 const Joi = require("joi");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const user = require("../models/user");
+const UserDTO = require("../dto/user");
 
 const passwordPattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
 const authController = {
@@ -56,8 +58,9 @@ const authController = {
         });
 
         const user = await userToStore.save();
+        const userDto = new UserDTO(user);
 
-        return res.status(201).json({ user });
+        return res.status(201).json({ "message": "Registered Successfully", userDto });
 
     },
     async login(req, res, next) {
@@ -72,7 +75,38 @@ const authController = {
             return next(error);
         }
 
-        // ...existing code...
+        const { email, password } = req.body;
+        let user;
+        try {
+            user = await User.findOne({ email });
+            if (!user) {
+                const error = {
+                    status: 401,
+                    message: "Invalid email "
+                }
+                return next(error);
+            }
+
+
+            const isMatch = await bcrypt.compare(password, user.password);
+
+            if (!isMatch) {
+                const error = {
+                    status: 401,
+                    message: "Invalid password"
+                }
+                return next(error);
+            }
+
+        } catch (e) {
+            return next(error);
+
+        }
+
+
+        const userDto = new UserDTO(user);
+        return res.json({ 'message': "Login successfull", 'user': userDto });
+
     }
 };
 

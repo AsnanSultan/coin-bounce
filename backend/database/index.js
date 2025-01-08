@@ -1,18 +1,18 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
-const {MONGODB_CONNECTION_STRING}=require("../config/index");
+const { MONGODB_CONNECTION_STRING } = require("../config/index");
 
-const dbConnect=async()=>{
+const dbConnect = async () => {
 
-try{
+    try {
 
-const conn=await mongoose.connect(MONGODB_CONNECTION_STRING);
-console.log(`MongoDB Connected: ${conn.connection.host}`);
+        const conn = await mongoose.connect(MONGODB_CONNECTION_STRING);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
 
-}catch(e){
-    console.log(`Error in dbConnect: ${e.message}`);
+    } catch (e) {
+        console.log(`Error in dbConnect: ${e.message}`);
+    }
+
 }
 
-}
-
-module.exports=dbConnect;
+module.exports = dbConnect;
