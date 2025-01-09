@@ -9,6 +9,6 @@ router.get("/test", (req, res) => res.json({ "msg": "Working" }));
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/logout",auth,authController.logout);
-
+router.get("/refresh",authController.refresh);
 
 module.exports = router;

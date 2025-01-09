@@ -71,7 +71,7 @@ const authController = {
             return next(error);
         }
 
-      await  JWTService.storeRefreshToken(refreshToken, user._id);
+        await JWTService.storeRefreshToken(refreshToken, user._id);
 
         res.cookie("accessToken", accessToken, {
             maxAge: 1000 * 60 * 60 * 24,
@@ -84,7 +84,7 @@ const authController = {
 
         const userDto = new UserDTO(user);
 
-        return res.status(201).json({ "message": "Registered Successfully", userDto,auth:true });
+        return res.status(201).json({ "message": "Registered Successfully", userDto, auth: true });
 
     },
     async login(req, res, next) {
@@ -145,23 +145,83 @@ const authController = {
             httpOnly: true
         });
         const userDto = new UserDTO(user);
-        return res.json({ 'message': "Login successfull", 'user': userDto ,auth:true});
+        return res.json({ 'message': "Login successfull", 'user': userDto, auth: true });
 
     },
 
-    async logout(req,res,next){
+    async logout(req, res, next) {
 
-        const  {refreshToken}=req.cookies;
-        try{
-            await RefreshToken.deleteOne({token:refreshToken});
+        const { refreshToken } = req.cookies;
+        try {
+            await RefreshToken.deleteOne({ token: refreshToken });
 
 
-        }catch(error){
+        } catch (error) {
             return next(error);
         }
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
-        res.status(200).json({"message":"Logout Successfully",user:null,auth:false});
+        res.status(200).json({ "message": "Logout Successfully", user: null, auth: false });
+
+    },
+
+    async refresh(req, res, next) {
+        const originalRefreshToken = req.cookies.refreshToken;
+        let id;
+        try {
+
+            id = JWTService.verifyRefreshToken(originalRefreshToken)._id;
+        } catch (e) {
+            const error = {
+                status: 401,
+                message: "Unauthorized"
+
+            }
+            return next(error);
+        }
+
+        try {
+            const match = RefreshToken.findOne({ _id: id, token: originalRefreshToken });
+
+            if (!match) {
+                const error = {
+                    status: 401,
+                    message: "Unauthorized"
+                }
+                return next(error);
+            }
+        } catch (e) {
+
+            return next(e);
+        }
+
+        try {
+            const accessToken = JWTService.signAccessToken({ _id: id }, '30m');
+            const refreshToken = JWTService.signRefreshToken({ _id: id }, '60m');
+
+            await RefreshToken.updateOne({ _id: id }, { token: refreshToken });
+            res.cookie("accessToken", accessToken, {
+                maxAge: 1000 * 60 * 60 * 24,
+                httpOnly: true
+            })
+            res.cookie("refreshToken", refreshToken, {
+                maxAge: 1000 * 60 * 60 * 24,
+                httpOnly: true
+            })
+
+            
+
+        } catch (error) {
+            return next(error);
+        }
+
+
+        const user=await User.findOne({_id:id});
+        const userDto=new UserDTO(user);
+        return res.json({ "message": "Refreshed", user:userDto, auth: true });
+
+
+
 
     }
 };
