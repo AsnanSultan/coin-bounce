@@ -1,9 +1,10 @@
 const { model } = require("mongoose");
 const Joi = require("joi");
 const User = require("../models/user");
+const RefreshToken = require("../models/token");
 const bcrypt = require("bcryptjs");
-const user = require("../models/user");
 const UserDTO = require("../dto/user");
+const JWTService = require("../services/JWTService");
 
 const passwordPattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
 const authController = {
@@ -49,18 +50,41 @@ const authController = {
 
 
         const passwordHash = await bcrypt.hash(password, 10);
+        let user;
+        let accessToken;
+        let refreshToken;
+        try {
 
-        const userToStore = User({
-            username,
-            name,
-            email,
-            password: passwordHash
+            const userToStore = User({
+                username,
+                name,
+                email,
+                password: passwordHash
+            });
+
+            user = await userToStore.save();
+            accessToken = JWTService.signAceessToken({ _id: user._id, }, '30m');
+            refreshToken = JWTService.signRefreshToken({ _id: user._id, }, '60m');
+
+
+        } catch (error) {
+            return next(error);
+        }
+
+      await  JWTService.storeRefreshToken(refreshToken, user._id);
+
+        res.cookie("accessToken", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true
+        });
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true
         });
 
-        const user = await userToStore.save();
         const userDto = new UserDTO(user);
 
-        return res.status(201).json({ "message": "Registered Successfully", userDto });
+        return res.status(201).json({ "message": "Registered Successfully", userDto,auth:true });
 
     },
     async login(req, res, next) {
@@ -103,9 +127,41 @@ const authController = {
 
         }
 
+        const accessToken = JWTService.signAccessToken({ _id: user._id }, '30m');
+        const refreshToken = JWTService.signRefreshToken({ _id: user._id }, '60m');
 
+        try {
+            await RefreshToken.updateOne({ userId: user._id }, { token: refreshToken }, { upsert: true });
+
+        } catch (error) {
+            return next(error);
+        }
+        res.cookie("accessToken", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true
+        });
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24,
+            httpOnly: true
+        });
         const userDto = new UserDTO(user);
-        return res.json({ 'message': "Login successfull", 'user': userDto });
+        return res.json({ 'message': "Login successfull", 'user': userDto ,auth:true});
+
+    },
+
+    async logout(req,res,next){
+
+        const  {refreshToken}=req.cookies;
+        try{
+            await RefreshToken.deleteOne({token:refreshToken});
+
+
+        }catch(error){
+            return next(error);
+        }
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        res.status(200).json({"message":"Logout Successfully",user:null,auth:false});
 
     }
 };

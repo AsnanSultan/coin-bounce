@@ -1,4 +1,4 @@
-const jwt = require('jsonwentoken');
+const jwt = require('jsonwebtoken');
 
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require("../config/index");
 const RefreshToken = require("../models/token");
@@ -7,13 +7,13 @@ const RefreshToken = require("../models/token");
 class JWTService {
 
     static signAccessToken(payload, expiryTime,) {
-        return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expirsIn: expiryTime });
+        return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: expiryTime });
 
     }
 
     static signRefreshToken(payload, expiryTime,) {
 
-        return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expirsIn: expiryTime });
+        return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: expiryTime });
     }
 
     static verifyAccessToken(token,) {
