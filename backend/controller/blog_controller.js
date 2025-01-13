@@ -7,9 +7,11 @@ const { BACKEND_SERVER_PATH } = require('../config');
 const BlogDTO = require('../dto/blog');
 const blog = require('../models/blog');
 
-const blogController= {
+const BlogDetailsDTO=require("../dto/blog-detail");
+
+const blogController = {
     async create(req, res, next) {
-       
+
 
         const createBlogSchema = Joi.object({
             title: Joi.string().required(),
@@ -20,10 +22,10 @@ const blogController= {
         });
         const error = createBlogSchema.validate(req.body);
         if (error.error) {
-           
+
             return next(error);
         }
-      
+
         const { title, author, content, photo } = req.body;
         const buffer = Buffer.from(photo.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""), 'base64');
 
@@ -58,10 +60,50 @@ const blogController= {
 
 
     },
-    getAll(req, res, next) {
+   async getAll(req, res, next) {
+
+        try {
+
+            const blogs = await Blog.find({});
+            let dtoBlogs = [];
+            for (let i = 0; i < blogs.length; i++) {
+                const blogDto = new BlogDTO(blogs[i]);
+                dtoBlogs.push(blogDto);
+            }
+
+            return res.status(200).json({ blogs: dtoBlogs });
+
+        } catch (error) {
+            return next(error);
+        }
 
     },
-    getById(req, res, next) {
+   async getById(req, res, next) 
+    {
+        const getByIdSchema=Joi.object({
+            id:Joi.string().regex(mongodbIdPattren).required()
+        });
+
+        const {error}=getByIdSchema.validate(req.params);
+
+        if(error){
+            return next(error);
+        }
+        const {id}=req.params;
+        try{
+
+
+           const blog= await  Blog.findOne({_id:id}).populate("author");
+              if(!blog){
+                return res.status(404).json({message:"Blog not found"});
+              }
+                const blogDto=new BlogDetailsDTO(blog);
+                return res.status(200).json({blog:blogDto});
+        }catch(error){
+            return next(error);
+        }
+
+
     },
     update(req, res, next) {
     },
