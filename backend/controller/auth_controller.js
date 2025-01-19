@@ -9,6 +9,8 @@ const JWTService = require("../services/JWTService");
 const passwordPattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
 const authController = {
     async register(req, res, next) {
+
+        
         const userRegisterSchema = Joi.object({
             username: Joi.string().min(3).max(30).required(),
             name: Joi.string().max(30).required(),
@@ -88,6 +90,9 @@ const authController = {
 
     },
     async login(req, res, next) {
+
+
+        console.log(req.body);
         const userLoginSchema = Joi.object({
             email: Joi.string().email().required(),
             password: Joi.string().pattern(passwordPattern).required(),
@@ -209,16 +214,16 @@ const authController = {
                 httpOnly: true
             })
 
-            
+
 
         } catch (error) {
             return next(error);
         }
 
 
-        const user=await User.findOne({_id:id});
-        const userDto=new UserDTO(user);
-        return res.json({ "message": "Refreshed", user:userDto, auth: true });
+        const user = await User.findOne({ _id: id });
+        const userDto = new UserDTO(user);
+        return res.json({ "message": "Refreshed", user: userDto, auth: true });
 
 
 

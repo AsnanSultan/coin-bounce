@@ -3,13 +3,15 @@ const authController = require("../controller/auth_controller");
 const router = express.Router();
 const auth=require("../middleware/auth");
 const blogController=require("../controller/blog_controller");
+const upload = require('multer')();
+
 //testing
 router.get("/test", (req, res) => res.json({ "msg": "Working" }));
 
 
 //auth
 router.post("/register", authController.register);
-router.post("/login", authController.login);
+router.post("/login",upload.any(), authController.login);
 router.post("/logout",auth,authController.logout);
 router.get("/refresh",authController.refresh);
 
