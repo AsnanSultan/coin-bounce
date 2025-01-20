@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const Comment = require('../models/comment.js');
 const blog = require('../models/blog');
+const CommentDTO=require('../dto/comment');
+
 const mongodbIdPattren = /^[0-9a-fA-F]{24}$/;
 
 const commentController = {
@@ -40,24 +42,36 @@ const commentController = {
     async getById(req, res, next) {
 
 
-        const getByIdSchema=Joi.object({
-            id:Joi.string().regex(mongodbIdPattren).required()
+        const getByIdSchema = Joi.object({
+            id: Joi.string().regex(mongodbIdPattren).required()
         })
 
-        const {error}=getByIdSchema.validate(req.id);
+        const { error } = getByIdSchema.validate(req.params);
 
-        if(error){
+        if (error) {
             return next(error);
         }
 
 
-        const {id}=req.body;
+        const { id } = req.params;
+        let comments;
+        try {
 
-try{
+            comments=await Comment.find({blog:id}).populate(["author"]);
 
-}catch(error){
-    return next(error);
-}
+        } catch (error) {
+            return next(error);
+
+
+        }
+
+        let commentDtos=[]
+        for(let i=0;i<comments.length;i++){
+const obj=new CommentDTO(comments[i]);
+commentDtos.push(obj);
+        }
+
+        return res.status(201).json({data:commentDtos});
 
     }
 }
