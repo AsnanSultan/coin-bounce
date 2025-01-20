@@ -4,6 +4,7 @@ const router = express.Router();
 const auth=require("../middleware/auth");
 const blogController=require("../controller/blog_controller");
 const upload = require('multer')();
+const commentController=require("../controller/comment_controller");
 
 //testing
 router.get("/test", (req, res) => res.json({ "msg": "Working" }));
@@ -22,6 +23,10 @@ router.get("/blog/:id",auth,blogController.getById);
 
 router.put("/blog",auth,blogController.update);
 router.delete("/blog/:id",auth,blogController.delete);
+
+//comment
+router.post("/comment",auth,commentController.create);
+router.get("/comment/:id",auth,commentController.getById);
 
 
 module.exports = router;

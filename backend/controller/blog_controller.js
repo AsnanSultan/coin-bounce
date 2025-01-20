@@ -21,12 +21,15 @@ const blogController = {
             content: Joi.string().required(),
 
         });
+    
         const error = createBlogSchema.validate(req.body);
+        console.log("I am here"+error.error);
         if (error.error) {
 
             return next(error);
         }
 
+      
         const { title, author, content, photo } = req.body;
         const buffer = Buffer.from(photo.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""), 'base64');
 
