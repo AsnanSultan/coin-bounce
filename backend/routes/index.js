@@ -20,7 +20,7 @@ router.post("/blog",auth,blogController.create);
 router.get("/blog/all",auth,blogController.getAll);
 router.get("/blog/:id",auth,blogController.getById);
 
-router.put("/blog/:id",auth,blogController.update);
+router.put("/blog",auth,blogController.update);
 router.delete("/blog/:id",auth,blogController.delete);
 
 

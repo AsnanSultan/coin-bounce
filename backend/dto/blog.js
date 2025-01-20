@@ -6,6 +6,7 @@ class blogDTO{
         this.content=blog.content;
         this.title=blog.title;
         this.photo=blog.photopath;
+        this.createdAt=blog.createdAt;
     }
 }
 
