@@ -6,6 +6,7 @@ const Blog = require('../models/blog');
 const { BACKEND_SERVER_PATH } = require('../config');
 const BlogDTO = require('../dto/blog.js');
 const blog = require('../models/blog');
+const Comment = require("../models/comment.js");
 
 const BlogDetailsDTO = require("../dto/blog-detail");
 
@@ -121,7 +122,7 @@ const blogController = {
         const { title, content, author, blogId, photo } = req.body;
         let blog;
         try {
-            blog = await Blog.findOne({_id : blogId});
+            blog = await Blog.findOne({ _id: blogId });
 
         } catch (error) {
             return next(error);
@@ -142,7 +143,7 @@ const blogController = {
                 return next(error);
             }
 
-            await Blog.updateOne({_id : blogId}, {
+            await Blog.updateOne({ _id: blogId }, {
                 title,
                 content,
                 photopath: `${BACKEND_SERVER_PATH}/storage/${imagePath}`
@@ -151,18 +152,38 @@ const blogController = {
 
 
 
-        }else{
-            await Blog.updateOne({_id:blogId},{title,content});
+        } else {
+            await Blog.updateOne({ _id: blogId }, { title, content });
         }
 
-      return  res.status(200).json({ message: "Blog updated successfully" });
+        return res.status(200).json({ message: "Blog updated successfully" });
 
 
 
 
 
     },
-    delete(req, res, next) {
+    async delete(req, res, next) {
+        const deleteBlogSchema = Joi.object({
+            id: Joi.string().regex(mongodbIdPattren).required()
+        });
+        const { error } = deleteBlogSchema.validate(req.params);
+        if (error) {
+            return next(error);
+
+        }
+
+        const { id } = req.params;
+
+        try {
+
+            await Blog.deleteOne({ _id: id });
+            await Comment.deleteMany({ blog: id });
+        } catch (error) {
+            return next(error);
+        }
+
+        return res.status(200).json({ message: "Blog deleted successfully" });
     },
 
 
