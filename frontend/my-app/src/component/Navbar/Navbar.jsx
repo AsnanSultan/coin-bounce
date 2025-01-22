@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css"
 function Navbar() {
+    const isAuthenticated = true;
     return (
 
         <>
@@ -24,17 +25,24 @@ function Navbar() {
                     className={({ isActive }) => isActive ? styles.activeStyle : styles.inActiveStyle}
 
                 >Submit a Blog</NavLink>
-                <NavLink to="login"
-                    className={({ isActive }) => isActive ? styles.activeStyle : styles.inActiveStyle}
 
-                ><button className={styles.loginButton}>Log In</button></NavLink>
-                <NavLink to="sign-in"
-                    className={({ isActive }) => isActive ? styles.activeStyle : styles.inActiveStyle}
+                {isAuthenticated ? <div>
+                    <NavLink>
+                        <button className={styles.signOutButton}>Sign out</button>
+                    </NavLink>
 
-                ><button className={styles.signInButton}>Sign In</button></NavLink>
+                </div> : <div>
+                    <NavLink to="login"
+                        className={({ isActive }) => isActive ? styles.activeStyle : styles.inActiveStyle}
 
+                    ><button className={styles.loginButton}>Log In</button></NavLink>
+                    <NavLink to="sign-in"
+                        className={({ isActive }) => isActive ? styles.activeStyle : styles.inActiveStyle}
+
+                    ><button className={styles.signInButton}>Sign In</button></NavLink>
+                </div>}
             </nav>
-            <div></div>
+            <div className={styles.saparater}></div>
         </>
 
     );
