@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css"
 function Navbar() {
-    const isAuthenticated = true;
+    const isAuthenticated = false;
     return (
 
         <>

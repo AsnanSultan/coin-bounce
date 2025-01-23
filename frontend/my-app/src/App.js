@@ -5,7 +5,8 @@ import Footer from "./component/Footer/Footer";
 import Home from "./pages/Home/Home"
 import styles from "./App.module.css";
 import Protected from "./component/Protected/protected";
-import Error from "./pages/Error/Error"
+import Error from "./pages/Error/Error";
+import Login from "./pages/Login/Login";
 function App() {
   const isAuth=false;
   return (
@@ -57,7 +58,7 @@ function App() {
               exact
               element={
                 <div className={styles.main}>
-                  <div>login page</div>
+                 <Login></Login>
                 </div>}
             />
              <Route
