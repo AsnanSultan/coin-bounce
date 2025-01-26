@@ -20,6 +20,7 @@ function Login() {
             <TextInput
                 type="Text"
                 values={values.username}
+                name="username"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 placeholder="username"
@@ -31,6 +32,7 @@ function Login() {
 
             <TextInput
              type="password"
+             name="password"
              values={values.password}
              onBlur={handleBlur}
              onChange={handleChange}
