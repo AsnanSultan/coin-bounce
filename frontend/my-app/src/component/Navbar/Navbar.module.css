@@ -1,4 +1,4 @@
-.navbar{
+.navbar {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -7,25 +7,26 @@
     width: 80%;
 }
 
-.logo{
+.logo {
     font-size: 32px;
     font-weight: 800;
 }
 
-.activeStyle{
+.activeStyle {
     color: #3861fb;
     font-size: 20px;
     font-weight: bold;
 
 }
 
-.inActiveStyle{
-text-decoration: none;
-font-size: 20px;
-font-weight: bold;
+.inActiveStyle {
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
 
 }
-.loginButton{
+
+.loginButton {
     border: none;
     outline: none;
     border-radius: 10px;
@@ -37,11 +38,12 @@ font-weight: bold;
 
 }
 
-.loginButton:hover{
+.loginButton:hover {
     color: black;
     background-color: #f3f3f3;
 }
-.signInButton{
+
+.signInButton {
     margin-left: 10px;
     background-color: #3861fb;
     color: white;
@@ -52,17 +54,17 @@ font-weight: bold;
     cursor: pointer;
     font-weight: bold;
     font-size: large;
-    
+
 
 
 }
 
-.signInButton:hover{
+.signInButton:hover {
     background-color: #1f4ffd;
 
 }
 
-.signOutButton{
+.signOutButton {
     margin-left: 10px;
     background-color: #ea3943;
     color: white;
@@ -73,16 +75,17 @@ font-weight: bold;
     cursor: pointer;
     font-weight: bold;
     font-size: large;
-    
+
 
 
 }
 
-.signOutButton:hover{
+.signOutButton:hover {
     background-color: #e01822;
 
 }
-.saparater{
+
+.saparater {
     height: 1px;
     margin-top: 5px;
     background: linear-gradient(to right, transparent, #9ba3c2, transparent);

@@ -1,10 +1,10 @@
 
 import { Navigate } from "react-router-dom";
-function Protected({isAuth,childern}){
-    if(isAuth){
+function Protected({ isAuth, childern }) {
+    if (isAuth) {
         return childern;
-    }else{
-        return <Navigate to="/login"/>
+    } else {
+        return <Navigate to="/login" />
     }
 
 }

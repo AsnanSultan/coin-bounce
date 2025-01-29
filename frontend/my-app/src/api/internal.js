@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api=axios.create({
+const api = axios.create({
     baseURL: process.env.REACT_APP_INTERNAL_API_PATH,
     withCredentials: true,
     headers: {
@@ -10,10 +10,10 @@ const api=axios.create({
 
 export const login = async (data) => {
     let response;
-    try{
-        response=await api.post("/login",data);
-    }catch(error){
-return error;
+    try {
+        response = await api.post("/login", data);
+    } catch (error) {
+        return error;
     }
     return response;
 };

@@ -8,7 +8,7 @@ import Protected from "./component/Protected/protected";
 import Error from "./pages/Error/Error";
 import Login from "./pages/Login/Login";
 function App() {
-  const isAuth=false;
+  const isAuth = false;
   return (
     <div className={styles.container}>
       <BrowserRouter>
@@ -36,32 +36,32 @@ function App() {
               exact
               element={
                 <Protected isAuth={isAuth}>
-                <div className={styles.main}>
-                  <div>Blog page</div>
-                </div>
+                  <div className={styles.main}>
+                    <div>Blog page</div>
+                  </div>
                 </Protected>
-                }
+              }
             />
-             <Route
+            <Route
               path='/submit'
               exact
               element={
                 <Protected isAuth={isAuth}>
-                <div className={styles.main}>
-                  <div>Submit Blog page</div>
-                </div>
+                  <div className={styles.main}>
+                    <div>Submit Blog page</div>
+                  </div>
                 </Protected>
-                }
+              }
             />
-             <Route
+            <Route
               path='/login'
               exact
               element={
                 <div className={styles.main}>
-                 <Login></Login>
+                  <Login></Login>
                 </div>}
             />
-             <Route
+            <Route
               path='/sign-in'
               exact
               element={
@@ -69,12 +69,12 @@ function App() {
                   <div>Sign in page</div>
                 </div>}
             />
-             <Route
+            <Route
               path='*'
-         
+
               element={
                 <div className={styles.main}>
-                 <Error/>
+                  <Error />
                 </div>}
             />
           </Routes>
