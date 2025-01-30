@@ -7,8 +7,11 @@ import styles from "./App.module.css";
 import Protected from "./component/Protected/protected";
 import Error from "./pages/Error/Error";
 import Login from "./pages/Login/Login";
+import Signup from "./pages/Signup/Signup";
+
+import { useSelector } from "react-redux";
 function App() {
-  const isAuth = false;
+  const isAuth = useSelector((state) => state.user.auth);
   return (
     <div className={styles.container}>
       <BrowserRouter>
@@ -66,7 +69,7 @@ function App() {
               exact
               element={
                 <div className={styles.main}>
-                  <div>Sign in page</div>
+                  <Signup></Signup>
                 </div>}
             />
             <Route
