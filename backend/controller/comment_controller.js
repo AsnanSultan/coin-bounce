@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const Comment = require('../models/comment.js');
 const blog = require('../models/blog');
-const CommentDTO=require('../dto/comment');
+const CommentDTO = require('../dto/comment');
 
 const mongodbIdPattren = /^[0-9a-fA-F]{24}$/;
 
@@ -57,7 +57,7 @@ const commentController = {
         let comments;
         try {
 
-            comments=await Comment.find({blog:id}).populate(["author"]);
+            comments = await Comment.find({ blog: id }).populate(["author"]);
 
         } catch (error) {
             return next(error);
@@ -65,13 +65,13 @@ const commentController = {
 
         }
 
-        let commentDtos=[]
-        for(let i=0;i<comments.length;i++){
-const obj=new CommentDTO(comments[i]);
-commentDtos.push(obj);
+        let commentDtos = []
+        for (let i = 0; i < comments.length; i++) {
+            const obj = new CommentDTO(comments[i]);
+            commentDtos.push(obj);
         }
 
-        return res.status(201).json({data:commentDtos});
+        return res.status(201).json({ data: commentDtos });
 
     }
 }

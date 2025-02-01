@@ -10,7 +10,7 @@ const passwordPattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]
 const authController = {
     async register(req, res, next) {
 
-        
+
         const userRegisterSchema = Joi.object({
             username: Joi.string().min(3).max(30).required(),
             name: Joi.string().max(30).required(),
