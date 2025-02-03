@@ -65,7 +65,7 @@ const authController = {
             });
 
             user = await userToStore.save();
-            accessToken = JWTService.signAceessToken({ _id: user._id, }, '30m');
+            accessToken = JWTService.signAccessToken({ _id: user._id, }, '30m');
             refreshToken = JWTService.signRefreshToken({ _id: user._id, }, '60m');
 
 

@@ -6,6 +6,7 @@ import { setUser } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {signup} from "../../api/internal";
 
 
 function Signup() {
@@ -14,6 +15,31 @@ function Signup() {
     const [error, setError] = useState("");
 
     const handleSignup = async () => {
+
+        const data={
+            name:values.name,
+            username:values.username,
+            email:values.email,
+            password:values.password,
+            confirmPassword:values.confirmPassword
+        };
+
+
+        const response=await signup(data);
+        if (response.status === 201) {
+            const user = {
+                _id: response.data.user._id,
+                email: response.data.user.email,
+                username: response.data.user.username,
+                auth: response.data.auth
+            }
+            dispatch(setUser(user));
+            navigate("/");
+        }
+        else if (response.code === "ERR_BAD_REQUEST") {
+            // alert("Invalid username or password");
+            setError(response.response.data.message);
+        }
 
     }
 
@@ -77,18 +103,18 @@ function Signup() {
         />
         <TextInput
             type="password"
-            name="Confirm password"
-            values={values.password}
+            name="confirmPassword"
+            values={values.confirmPassword}
             onBlur={handleBlur}
             onChange={handleChange}
-            placeholder="Confirm password"
+            placeholder="confirm password"
             error={errors.confirmPassword && touched.confirmPassword ? 1 : undefined}
             errormessage={errors.confirmPassword}
         />
         <button className={styles.signupButton} onClick={handleSignup}>Sign up</button>
         <span>
-            have an account? <button className={styles.haveAccount} onClick={() => navigate('/login')}>Register</button>
-        </span>{error != "" ? <p className={styles.errorMessage}>{error}</p> : null}
+            Already have an account? <button className={styles.haveAccount} onClick={() => navigate('/login')}>Log In</button>
+        </span>{error !== "" ? <p className={styles.errorMessage}>{error}</p> : null}
 
     </div>);
 }
