@@ -27,12 +27,13 @@ function Signup() {
 
         const response=await signup(data);
         if (response.status === 201) {
+        
             const user = {
-                _id: response.data.user._id,
-                email: response.data.user.email,
-                username: response.data.user.username,
-                auth: response.data.auth
-            }
+                _id: response.data.userDto._id,
+                email: response.data.userDto.email,
+                username: response.data.userDto.username,
+                auth: response.data.auth,
+              };
             dispatch(setUser(user));
             navigate("/");
         }
@@ -111,7 +112,15 @@ function Signup() {
             error={errors.confirmPassword && touched.confirmPassword ? 1 : undefined}
             errormessage={errors.confirmPassword}
         />
-        <button className={styles.signupButton} onClick={handleSignup}>Sign up</button>
+        <button className={styles.signupButton} onClick={handleSignup}
+        
+        disabled={!values.username || !values.password 
+            ||!values.email||!values.name||!values.confirmPassword||!values.password||
+            
+            error.username || error.password
+            ||error.email||error.name||error.confirmPassword||error.password}
+
+        >Sign up</button>
         <span>
             Already have an account? <button className={styles.haveAccount} onClick={() => navigate('/login')}>Log In</button>
         </span>{error !== "" ? <p className={styles.errorMessage}>{error}</p> : null}

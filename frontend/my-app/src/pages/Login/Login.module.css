@@ -18,6 +18,10 @@
     margin-bottom: 100px;
 }
 
+.loginButton:disabled{
+    background-color:#849cf2 ;
+}
+
 .loginButton {
     background-color: #3861fb;
     color: white;
