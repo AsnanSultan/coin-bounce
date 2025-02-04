@@ -1,14 +1,9 @@
-.container{
-    margin: 20px;
-    
-}
-.layout{
+.loadingWrapper{
     display: flex;
+    margin-top: 40px;
     flex-direction: column;
-    min-height: 95vh;
-}
-.main{
-    flex: 1;
+    gap: 20px;
     align-items: center;
     justify-content: center;
+    height: calc(100vh-400px);
 }

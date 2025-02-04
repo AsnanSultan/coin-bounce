@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {getNews} from "../../api/external";
 import styles from "./Home.module.css";
+import Loader from "../../component/Loader/Loader";
 
 
 function Home() {
@@ -16,6 +17,10 @@ function Home() {
 
    const handelCardClick=(url)=>{
         window.open(url,"_blank");
+    }
+
+    if(articles.length<=0){
+        return <Loader text="homepage Loading"></Loader>
     }
     return (
         <>
