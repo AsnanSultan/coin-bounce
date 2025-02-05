@@ -20,7 +20,7 @@ function Home() {
     }
 
     if(articles.length<=0){
-        return <Loader text="homepage Loading"></Loader>
+        return <Loader text="Home page"></Loader>
     }
     return (
         <>
