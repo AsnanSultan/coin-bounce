@@ -26,6 +26,10 @@ app.use(router);
 dbConnect();
 // app.get("/",(req,res)=>res.json({"mesg":"Hellwo World!"}));
 app.use('/storage',express.static('storage'));
+app.all("*", (req, res) => {
+    res.status(404).json({ error: "API route not found" });
+});
+
 app.use(errorHandler);
 app.listen(3001,()=> {console.log(`Server is running on port ${3001}`);
 
