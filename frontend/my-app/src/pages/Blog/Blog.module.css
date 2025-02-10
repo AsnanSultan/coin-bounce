@@ -30,18 +30,22 @@
 }
 
 .blog img {
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
     border-radius: 10px;
 }
 
 .blog h1 {
     text-align: left;
-    margin-top: 15px;
+    margin: 15px 0;
     background-color: transparent;
     color: #fff;
 }
 
 .blog:hover h1 {
     color: #3861fb;
+}
+.blog p{
+    margin-top: 20px;
+    font-weight: bold;
 }
