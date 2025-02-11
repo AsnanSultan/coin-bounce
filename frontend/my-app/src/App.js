@@ -40,11 +40,11 @@ function App() {
               path='/blogs'
               exact
               element={
-                 <Protected isAuth={isAuth}>
+                //  <Protected isAuth={isAuth}>
                   <div className={styles.main}>
                     <Blog/>
                   </div>
-                 </Protected>
+                //  </Protected>
               }
             />
             <Route

@@ -57,9 +57,11 @@ function SubmittBlogPage() {
                     accept="image/jpg, image/jpeg, image/png"
                     onChange={getPhoto}
                 ></input>
+                {photo!==""?<img src={photo} width={150} height={150}></img>:null}
             </div>
             <button
-                className={styles.submitButton}
+                className={styles.submit}
+                disabled={title.length <= 0 || photo===''|| content.length <= 0}
                 onClick={submitButtonHandler}
             >
                 Submit

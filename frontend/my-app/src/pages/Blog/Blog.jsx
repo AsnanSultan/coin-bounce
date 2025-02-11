@@ -4,6 +4,7 @@ import Loader from "../../component/Loader/Loader";
 import styles from "./Blog.module.css";
 
 function Blog() {
+console.log("I am here at blog");
     const [blogs, setBlogs] = useState([]);
     useEffect(() => {
         (async function getAllBlogApiCall() {
