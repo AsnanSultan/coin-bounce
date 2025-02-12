@@ -41,21 +41,51 @@ export const signout = async () => {
     return response;
 }
 
-export const getAllBlogs=async()=>{
+export const getAllBlogs = async () => {
     let response;
-    try{
-        response=await api.get("/blog/all");
-    }catch(error){
+    try {
+        response = await api.get("/blog/all");
+    } catch (error) {
         return error;
     }
     return response;
 }
 
-export const submittBlog=async(data)=>{
+export const submittBlog = async (data) => {
     let response;
-    try{
-        response=await api.post("/blog",data);
-    }catch(error){
+    try {
+        response = await api.post("/blog", data);
+    } catch (error) {
+        return error;
+    }
+    return response;
+}
+
+export const getBlogById = async (id) => {
+    let response;
+    try {
+        response = await api.post("/blog/" + id);
+    } catch (error) {
+        return error;
+    }
+    return response;
+}
+
+export const getCommentById = async (id) => {
+    let response;
+    try {
+        response = await api.get("/comment/" + id, { validateStatus: false });
+    } catch (error) {
+        return error;
+    }
+    return response;
+}
+
+export const postComment = async (data) => {
+    let response;
+    try {
+        response = await api.post("/comment", data);
+    } catch (error) {
         return error;
     }
     return response;

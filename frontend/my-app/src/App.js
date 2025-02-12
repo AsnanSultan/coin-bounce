@@ -11,6 +11,7 @@ import Signup from "./pages/Signup/Signup";
 import Crypto from "./pages/Crypto/Crypto";
 import { useSelector } from "react-redux";
 import Blog from "./pages/Blog/Blog";
+import BlogDetails from "./pages/BlogDetails/BlogDetails";
 import SubmittBlogPage from "./pages/SubmittBlog/SubmittBlog";
 function App() {
   const isAuth = useSelector((state) => state.user.auth);
@@ -43,6 +44,17 @@ function App() {
                 //  <Protected isAuth={isAuth}>
                   <div className={styles.main}>
                     <Blog/>
+                  </div>
+                //  </Protected>
+              }
+            />
+             <Route
+              path='/blogs/:id'
+              exact
+              element={
+                //  <Protected isAuth={isAuth}>
+                  <div className={styles.main}>
+                    <BlogDetails/>
                   </div>
                 //  </Protected>
               }

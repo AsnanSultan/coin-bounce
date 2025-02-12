@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { getAllBlogs } from "../../api/internal";
 import Loader from "../../component/Loader/Loader";
 import styles from "./Blog.module.css";
-
+import { useNavigate } from "react-router-dom";
 function Blog() {
-console.log("I am here at blog");
+    const navigate=useNavigate();
     const [blogs, setBlogs] = useState([]);
     useEffect(() => {
         (async function getAllBlogApiCall() {
@@ -28,7 +28,9 @@ console.log("I am here at blog");
 
             <div className={styles.blogsWrapper}>
                 {blogs.map((blog) => (
-                    <div id={blog._id} key={blog._id} className={styles.blog}>
+                    <div id={blog._id} key={blog._id} className={styles.blog}
+                    onClick={()=>navigate(`/blogs/${blog._id}`)}
+                    >
                         <h1>
                             {blog.title}
                         </h1>
