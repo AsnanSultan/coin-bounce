@@ -71,7 +71,7 @@ export const getBlogById = async (id) => {
     return response;
 }
 
-export const getCommentById = async (id) => {
+export const getCommentsById = async (id) => {
     let response;
     try {
         response = await api.get("/comment/" + id, { validateStatus: false });
@@ -89,4 +89,14 @@ export const postComment = async (data) => {
         return error;
     }
     return response;
+}
+export const deleteBlog = async (id) => {
+    let response;
+    try {
+        response = await api.delete("/blog/" + id);
+    } catch (error) {
+        return error;
+    }
+    return response;
+
 }
